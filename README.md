@@ -10,7 +10,7 @@ Commands:
 
 //pos follow off -- disables follow
 
-//pos go -- goes to the combat position, then faces its target, as specified with the following commands
+//pos go -- disables follow, and goes to the combat position, then faces its target, as specified with the following commands
 
 //pos target|t name -- sets the target for go
 
