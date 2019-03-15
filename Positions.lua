@@ -31,6 +31,9 @@ function goto_position()
 	local me = windower.ffxi.get_mob_by_target('me')
 	local dist =  math.sqrt((pos_x - me.x)^2 + (pos_y - me.y)^2)
 	if dist > tolerance then -- too far
+		if windower.ffxi.get_player().target_locked then 
+			windower.send_command("input /lockon")
+		end
 		windower.ffxi.run(pos_x - me.x, pos_y - me.y)
 	else
 		stop()
