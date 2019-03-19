@@ -58,6 +58,10 @@ function follow()
 		local t = windower.ffxi.get_mob_by_name(follow_target)
 		if not t then return end
 		
+		if windower.ffxi.get_player().target_locked then 
+			windower.send_command("input /lockon")
+		end
+		
 		dTarget = math.sqrt(t.distance)
 		
 		if follow_distance < dTarget and math.abs(math.sqrt((t.x - me.x)^2 + (t.y - me.y)^2) - dTarget) < .01 then
