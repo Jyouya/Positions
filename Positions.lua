@@ -5,13 +5,16 @@ _addon.version = '1.0'
 
 require('strings')
 require('GUI')
+config = require('config')
+
+settings = config.load()
 
 target = nil
-target_mode = 'battle target' -- 'target' 'target of target' 'battle target'
-tolerance = 0.2
-distance = 20.5
+target_mode = settings.target_mode or 'battle target' -- 'target' 'target of target' 'battle target'
+tolerance = settings.tolerance or 0.2
+distance = settings.distance or 20.5
 prerender_id = nil
-timeout_delay = 5
+timeout_delay = settings.timeout or 5
 timeout = nil
 
 follow_target = nil
@@ -24,9 +27,6 @@ following = false
 
 pos_x = nil -- Where we're running to
 pos_y = nil
-
-GUI_x = 1200
-GUI_y = 80
 
 require('tables')
 require('queues')
@@ -192,6 +192,14 @@ windower.register_event('addon command', function(...)
 			windower.add_to_chat(200, 'Now following %s':format(follow_target))
 			start_following()	
 		end
+	elseif cmd == 'save' then
+		config.save(settings)
+	elseif cmd == 'movegui' then -- move the GUI
+		if args[2] then
+
+			settings.x = tonumber(args[1])
+			settings.y = tonumber(args[2])
+		end
 	end
 end)
 
@@ -206,23 +214,23 @@ end
 function build_UI()
 	POS_GUI = {}
 	POS_GUI.follow_target = PassiveText({
-		x = GUI_x + 0,
-		y = GUI_y + 0,
+		x = settings.x + 0,
+		y = settings.y + 0,
 		text = 'Following:',
 		align = 'left'}
 	)
 	POS_GUI.follow_target:draw()
 	POS_GUI.follow_target2 = PassiveText({
-		x = GUI_x + 162,
-		y = GUI_y + 0,
+		x = settings.x + 162,
+		y = settings.y + 0,
 		align = 'right'},
 		'follow_target'
 	)
 	POS_GUI.follow_target2:draw()
 	
 	POS_GUI.button = ToggleButton{
-		x = GUI_x + 166,
-		y =	GUI_y + 0,
+		x = settings.x + 166,
+		y =	settings.y + 0,
 		var = 'following',
 		iconUp = 'Follow Off.png',
 		iconDown = 'Follow On.png',
@@ -231,31 +239,31 @@ function build_UI()
 	POS_GUI.button:draw()
 	
 	POS_GUI.follow_distance = PassiveText({
-		x = GUI_x + 0,
-		y = GUI_y + 16,
+		x = settings.x + 0,
+		y = settings.y + 16,
 		text = 'Follow Distance:',
 		align = 'left'}
 	)
 	POS_GUI.follow_distance:draw()
 	POS_GUI.follow_distance2 = PassiveText({
-		x = GUI_x + 162,
-		y = GUI_y + 16,
+		x = settings.x + 162,
+		y = settings.y + 16,
 		align = 'right'},
 		'follow_distance'
 	)
 	POS_GUI.follow_distance2:draw()
 	
 	POS_GUI.pos_mode = PassiveText({
-		x = GUI_x + 0,
-		y = GUI_y + 46,
+		x = settings.x + 0,
+		y = settings.y + 46,
 		text = 'Position Mode:',
 		align = 'left'}
 		--'target_mode'
 	)
 	POS_GUI.pos_mode:draw()
 	POS_GUI.pos_mode2 = PassiveText({
-		x = GUI_x + 208,
-		y = GUI_y + 46,
+		x = settings.x + 208,
+		y = settings.y + 46,
 		--text = '%s',
 		align = 'right'},
 		'target_mode'
@@ -263,16 +271,16 @@ function build_UI()
 	POS_GUI.pos_mode2:draw()
 	
 	POS_GUI.pos_target = PassiveText({
-		x = GUI_x + 0,
-		y = GUI_y + 62,
+		x = settings.x + 0,
+		y = settings.y + 62,
 		text = 'Position Target:',
 		align = 'left'}
 		--'target_mode'
 	)
 	POS_GUI.pos_target:draw()
 	POS_GUI.pos_target2 = PassiveText({
-		x = GUI_x + 208,
-		y = GUI_y + 62,
+		x = settings.x + 208,
+		y = settings.y + 62,
 		--text = '%s',
 		align = 'right'},
 		'target'
@@ -280,16 +288,16 @@ function build_UI()
 	POS_GUI.pos_target2:draw()
 	
 	POS_GUI.pos_dist = PassiveText({
-		x = GUI_x + 0,
-		y = GUI_y + 78,
+		x = settings.x + 0,
+		y = settings.y + 78,
 		text = 'Position Distance:',
 		align = 'left'}
 		--'target_mode'
 	)
 	POS_GUI.pos_dist:draw()
 	POS_GUI.pos_dist = PassiveText({
-		x = GUI_x + 208,
-		y = GUI_y + 78,
+		x = settings.x + 208,
+		y = settings.y + 78,
 		--text = '%s',
 		align = 'right'},
 		'distance'
