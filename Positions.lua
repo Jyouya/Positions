@@ -123,6 +123,9 @@ windower.register_event('addon command', function(...)
 	local cmd = args[1]:lower()
 	args:remove(1)
 	if cmd == 'go' then -- Calculate where we want to go, and bind goto_position() to prerender as prerender_id
+		if type(tonumber(args[1])) == 'number' then
+			distance = tonumber(args[1])
+		end
 		if follow_id then
 			stop_following() -- stop following
 		end
