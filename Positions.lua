@@ -53,10 +53,10 @@ function stop()
 end
 
 function follow()
-	local curtime = os.clock()
-	if nexttime + delay <= curtime and follow_target then
+	--local curtime = os.clock()
+	--if nexttime + delay <= curtime and follow_target then
 		nexttime = curtime
-		delay = 0.1
+	--	delay = 0.1
 		local me = windower.ffxi.get_mob_by_target('me')
 		local t = windower.ffxi.get_mob_by_name(follow_target)
 		if not t then return end
@@ -72,7 +72,7 @@ function follow()
 		else
 			windower.ffxi.run(false)
 		end
-	end
+	--end
 end
 
 function start_following()
